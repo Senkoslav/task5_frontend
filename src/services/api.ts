@@ -76,6 +76,7 @@ export const userAPI = {
   blockUsers: (data: BulkOperationRequest) => api.post('/users/block', data),
   unblockUsers: (data: BulkOperationRequest) => api.post('/users/unblock', data),
   deleteUsers: (data: BulkOperationRequest) => api.post('/users/delete', data),
+  deleteUnverifiedUsers: () => api.delete('/users/unverified'),
 };
 
 export default api;

@@ -11,7 +11,7 @@ interface ToolbarProps {
   onRefresh: () => void;
 }
 
-type ModalAction = "block" | "unblock" | "delete" | null;
+type ModalAction = "block" | "unblock" | "delete" | "deleteUnverified" | null;
 
 export default function Toolbar({
   onSuccess,
@@ -69,7 +69,7 @@ export default function Toolbar({
   };
 
   const openModal = (action: ModalAction) => {
-    if (!validateAction(action)) {
+    if (action !== "deleteUnverified" && !validateAction(action)) {
       return;
     }
     setModalAction(action);
@@ -103,6 +103,10 @@ export default function Toolbar({
         case "delete":
           response = await userAPI.deleteUsers({ userIds: selectedUsers });
           successMessage = `${response.data.count} user(s) deleted successfully`;
+          break;
+        case "deleteUnverified":
+          response = await userAPI.deleteUnverifiedUsers();
+          successMessage = `${response.data.count} unverified user(s) deleted successfully`;
           break;
       }
 
@@ -138,6 +142,13 @@ export default function Toolbar({
           title: "Delete Users",
           message: `Are you sure you want to delete ${selectedUsers.length} selected user(s)? This action cannot be undone.`,
           confirmText: "Delete",
+          variant: "danger" as const,
+        };
+      case "deleteUnverified":
+        return {
+          title: "Delete Unverified Users",
+          message: "Are you sure you want to delete ALL unverified users? This action cannot be undone.",
+          confirmText: "Delete All Unverified",
           variant: "danger" as const,
         };
       default:
@@ -181,6 +192,17 @@ export default function Toolbar({
           title="Delete selected users"
         >
           <i className="bi bi-trash"></i> Delete
+        </button>
+
+        <div className="vr"></div>
+
+        <button
+          className="btn btn-warning text-dark"
+          disabled={loading}
+          onClick={() => openModal("deleteUnverified")}
+          title="Delete all unverified users"
+        >
+          <i className="bi bi-trash"></i> Delete Unverified
         </button>
 
         <div className="ms-auto">
