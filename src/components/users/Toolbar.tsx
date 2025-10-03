@@ -166,44 +166,46 @@ export default function Toolbar({
 
   return (
     <>
-      <div className="toolbar d-flex align-items-center gap-2">
-        <button
-          className="btn btn-outline-warning"
-          disabled={isDisabled}
-          onClick={() => openModal("block")}
-          title="Block selected users"
-        >
-          <i className="bi bi-lock"></i> Block
-        </button>
+      <div className="toolbar d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div className="d-flex flex-wrap gap-2">
+          <button
+            className="btn btn-outline-warning btn-sm"
+            disabled={isDisabled}
+            onClick={() => openModal("block")}
+            title="Block selected users"
+          >
+            <i className="bi bi-lock"></i> Block
+          </button>
 
-        <button
-          className="btn btn-outline-success"
-          disabled={isDisabled}
-          onClick={() => openModal("unblock")}
-          title="Unblock selected users"
-        >
-          <i className="bi bi-unlock"></i> Unblock
-        </button>
+          <button
+            className="btn btn-outline-success btn-sm"
+            disabled={isDisabled}
+            onClick={() => openModal("unblock")}
+            title="Unblock selected users"
+          >
+            <i className="bi bi-unlock"></i> Unblock
+          </button>
 
-        <button
-          className="btn btn-outline-danger"
-          disabled={isDisabled}
-          onClick={() => openModal("delete")}
-          title="Delete selected users"
-        >
-          <i className="bi bi-trash"></i> Delete
-        </button>
+          <button
+            className="btn btn-outline-danger btn-sm"
+            disabled={isDisabled}
+            onClick={() => openModal("delete")}
+            title="Delete selected users"
+          >
+            <i className="bi bi-trash"></i> Delete
+          </button>
 
-        <div className="vr"></div>
+          <div className="vr d-none d-md-block"></div>
 
-        <button
-          className="btn btn-warning text-dark"
-          disabled={loading}
-          onClick={() => openModal("deleteUnverified")}
-          title="Delete all unverified users"
-        >
-          <i className="bi bi-trash"></i> Delete Unverified
-        </button>
+          <button
+            className="btn btn-warning text-dark btn-sm"
+            disabled={loading}
+            onClick={() => openModal("deleteUnverified")}
+            title="Delete all unverified users"
+          >
+            <i className="bi bi-trash"></i> Delete Unverified
+          </button>
+        </div>
 
         <div className="ms-auto">
           <small className="text-muted">
