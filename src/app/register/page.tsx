@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { authAPI } from '@/services/api';
-import { useAuthStore } from '@/store/authStore';
-import { useToast } from '@/components/ui/ToastContainer';
-import Loader from '@/components/common/Loader';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { authAPI } from "@/services/api";
+import { useAuthStore } from "@/store/authStore";
+import { useToast } from "@/components/ui/ToastContainer";
+import Loader from "@/components/common/Loader";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
-  const { showError } = useToast();
+  const { showError, showSuccess } = useToast();
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   }, [isAuthenticated, router]);
 
@@ -40,15 +40,16 @@ export default function RegisterPage() {
 
     try {
       const response = await authAPI.register(formData);
-      
+
       if (response.data.success) {
-        router.push('/login');
+        showSuccess("Registration successful! Check your email and login.");
+        router.push("/login");
       } else {
-        showError(response.data.message || 'Registration failed');
+        showError(response.data.message || "Registration failed");
       }
     } catch (err) {
       const error = err as { response?: { data?: { error?: string } } };
-      showError(error.response?.data?.error || 'Registration failed');
+      showError(error.response?.data?.error || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -64,7 +65,9 @@ export default function RegisterPage() {
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="name" className="form-label">Name</label>
+                  <label htmlFor="name" className="form-label">
+                    Name
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -77,7 +80,9 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
                   <input
                     type="email"
                     className="form-control"
@@ -90,10 +95,12 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
                   <div className="input-group">
                     <input
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       className="form-control"
                       id="password"
                       name="password"
@@ -106,12 +113,18 @@ export default function RegisterPage() {
                       type="button"
                       className="btn btn-outline-secondary password-toggle-btn"
                       onClick={() => setShowPassword(!showPassword)}
-                      title={showPassword ? 'Hide password' : 'Show password'}
+                      title={showPassword ? "Hide password" : "Show password"}
                     >
-                      <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                      <i
+                        className={`bi ${
+                          showPassword ? "bi-eye-slash" : "bi-eye"
+                        }`}
+                      ></i>
                     </button>
                   </div>
-                  <div className="form-text">Any non-empty password is allowed</div>
+                  <div className="form-text">
+                    Any non-empty password is allowed
+                  </div>
                 </div>
 
                 <button
@@ -122,14 +135,14 @@ export default function RegisterPage() {
                   {loading ? (
                     <Loader size="sm" text="Registering" inline />
                   ) : (
-                    'Register'
+                    "Register"
                   )}
                 </button>
               </form>
 
               <div className="text-center mt-3">
                 <p className="mb-0">
-                  Already have an account?{' '}
+                  Already have an account?{" "}
                   <Link href="/login" className="text-decoration-none">
                     Login here
                   </Link>
